@@ -202,11 +202,26 @@ def comparetagnames(name, tag):
 # Funciones de ordenamiento
 
 def sortBooks(catalog, size):
-    # TODO completar modificaciones para el laboratorio 4
     sub_list = lt.subList(catalog['books'], 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-    sa.sort(sub_list, compareratings)
+    sorted_list = sa.sort(sub_list, compareratings)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg
+    return elapsed_time_mseg, sorted_list
+
+
+def printSortResults(ord_books, sample=10):
+    size = lt.size(ord_books)
+    if size > sample:
+        print("Los primeros ", sample, " libros ordenados son:")
+        i=1
+        while i <= sample:
+            book = lt.getElement(ord_books,i)
+            print('Titulo: ' + book['title'] + ' ISBN: ' +
+                book['isbn'] + ' Rating: ' + book['average_rating'])
+            i+=1
+
+
+def compareratings(book1, book2):
+    return (float(book1['average_rating']) < float(book2['average_rating']))
